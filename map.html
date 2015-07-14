@@ -25,6 +25,7 @@
 <body>
 	<div id="map"></div>
 <script src="js/leaflet.js"></script>
+<script src="js/leaflet.wms.js"></script>
 <script src="js/leaflet.awesome-markers.js"></script>
 
 	
@@ -60,6 +61,27 @@
 	  L.marker([51.931196,4.522291], {icon: greenMarker}).addTo(map);
 	  
 	omnivore.wkt.parse('MULTILINESTRING ((4.512291 51.941196, 4.512291 51.931196, 4.522291 51.931196))').addTo(map);
+	
+	// WMS overlay
+	var wmsUrl = "http://webservices.nationalatlas.gov/wms"
+	
+	var source = L.WMS.source(wmsUrl, {
+		"format": "image/png",
+		'transparent': true,
+		'tiled': true
+	});
+	//source.getLayer("eos:LC80450292013225LGN00_B1").addTo(map);
+	
+	    var layers = {
+        'Time Zones': source.getLayer("timezones"),
+        'Lakes & Rivers': source.getLayer("lakesrivers"),
+        'Airports': source.getLayer("airports"),
+        'State Capitals': source.getLayer("statecap")
+    };
+    for (var name in layers) {
+        layers[name].addTo(map);
+    }
+	
 	  
 
 	</script>
