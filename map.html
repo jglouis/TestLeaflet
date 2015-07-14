@@ -25,20 +25,19 @@
 <body>
 	<div id="map"></div>
 <script src="js/leaflet.js"></script>
-<script src="js/leaflet.wms.js"></script>
 <script src="js/leaflet.awesome-markers.js"></script>
 
 	
 	
 	<script>
-		var map = L.map('map').setView([51.941196,4.512291], 13);
+		//var map = L.map('map').setView([51.941196,4.512291], 13);
+		var map = L.map('map').setView([27.0,85.0], 13);
 
 		L.AwesomeMarkers.Icon.prototype.options.prefix = ['sjjb', 'ion', 'ion-android'];
 		
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
-			id: 'examples.map-i875mjb7'
-		}).addTo(map);
+		}).addTo(map);	
 		
 		  // Creates a red marker with the coffee icon
 	  var redMarker = L.AwesomeMarkers.icon({
@@ -46,7 +45,7 @@
 		markerColor: 'red',
 		//extraClasses: 'ion-android-restaurant'
 	  });
-	  L.marker([51.941196,4.512291], {icon: redMarker}).addTo(map);
+	  L.marker([27.0,85.0], {icon: redMarker}).addTo(map);
 	  
 	  var blueMarker = L.AwesomeMarkers.icon({
 		icon: 'android-fastfood',
@@ -63,27 +62,17 @@
 	omnivore.wkt.parse('MULTILINESTRING ((4.512291 51.941196, 4.512291 51.931196, 4.522291 51.931196))').addTo(map);
 	
 	// WMS overlay
-	var wmsUrl = "http://webservices.nationalatlas.gov/wms"
+	//var wmsUrl = "http://webservices.nationalatlas.gov/wms"
+	var wmsUrl = "http://sdi.spaceapplications.com/geoserver/eos/wms"	
 	
-	var source = L.WMS.source(wmsUrl, {
-		"format": "image/png",
-		'transparent': true,
-		'tiled': true
+	var nexrad = L.tileLayer.wms(wmsUrl, {
+		layers: "eos:LC81420402015143LGN00",
+		format: 'image/png',
+		transparent: true
 	});
-	//source.getLayer("eos:LC80450292013225LGN00_B1").addTo(map);
 	
-	    var layers = {
-        'Time Zones': source.getLayer("timezones"),
-        'Lakes & Rivers': source.getLayer("lakesrivers"),
-        'Airports': source.getLayer("airports"),
-        'State Capitals': source.getLayer("statecap")
-    };
-    for (var name in layers) {
-        layers[name].addTo(map);
-    }
+	nexrad.addTo(map);
 	
-	  
-
 	</script>
 
 </body>
