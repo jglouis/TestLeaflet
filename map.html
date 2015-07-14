@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<link rel="stylesheet" href="css/sjjbicons.css">
+	<link rel="stylesheet" href="css/ionicons.css">
+	
+	<link rel="stylesheet" href="css/leaflet.awesome-markers.css">
+	<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js"></script>
+	
+    
+	<style>
+		#map { 
+		height: 600px; 
+		}
+		.awesome-marker i {
+			font-size: 18px;
+			margin-top: 8px;
+		}
+		
+
+	</style>
+	
+</head>
+<body>
+	<div id="map"></div>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="js/leaflet.awesome-markers.js"></script>
+
+	
+	
+	<script>
+		var map = L.map('map').setView([51.941196,4.512291], 13);
+
+		L.AwesomeMarkers.Icon.prototype.options.prefix = ['sjjb', 'ion', 'ion-android'];
+		
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			id: 'examples.map-i875mjb7'
+		}).addTo(map);
+		
+		  // Creates a red marker with the coffee icon
+	  var redMarker = L.AwesomeMarkers.icon({
+		icon: 'restaurant',
+		markerColor: 'red',
+		//extraClasses: 'ion-android-restaurant'
+	  });
+	  L.marker([51.941196,4.512291], {icon: redMarker}).addTo(map);
+	  
+	  var blueMarker = L.AwesomeMarkers.icon({
+		icon: 'android-fastfood',
+		markerColor: 'blue'
+	  });
+	  L.marker([51.931196,4.512291], {icon: blueMarker}).addTo(map);
+	  
+	 var greenMarker = L.AwesomeMarkers.icon({
+		icon: 'android-bar',
+		markerColor: 'green'
+	  });
+	  L.marker([51.931196,4.522291], {icon: greenMarker}).addTo(map);
+	  
+	omnivore.wkt.parse('MULTILINESTRING ((4.512291 51.941196, 4.512291 51.931196, 4.522291 51.931196))').addTo(map);
+	  
+
+	</script>
+
+</body>
+</html>
