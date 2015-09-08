@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 	<link rel="stylesheet" href="css/sjjbicons.css">
 	<link rel="stylesheet" href="css/ionicons.css">
 	<link rel="stylesheet" href="css/map.css">
@@ -26,20 +26,18 @@
 </head>
 <body>
 	<div id="map"></div>
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <script src="js/leaflet.awesome-markers.js"></script>
 
-	
-	
 	<script>
-		//var map = L.map('map').setView([51.941196,4.512291], 13);
-		var map = L.map('map').setView([27.0,85.0], 13);
+		var map = L.map('map').setView([28.7724318773,83.51388114749308], 15);
 
 		L.AwesomeMarkers.Icon.prototype.options.prefix = ['sjjb', 'ion', 'ion-android'];
 		
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
 		}).addTo(map);	
+		
 		//RED
 		  // Creates a red marker with the coffee icon
 	  var redMarker = L.AwesomeMarkers.icon({
@@ -47,11 +45,11 @@
 		markerColor: 'red',
 		//extraClasses: 'ion-android-restaurant'
 	  });
-	  redMarker = L.marker([27.0,85.0], {icon: redMarker});
+	  redMarker = L.marker([28.7824318773,83.51388114749308], {icon: redMarker});
 	  redMarker.addTo(map);	  
 	  redMarker.on('click', function() {
-	  $('.selectedMarker').removeClass('selectedMarker');
-		$(redMarker._icon).addClass('selectedMarker');
+	  $('.selected').removeClass('selected');
+		$(redMarker._icon).addClass('selected');
 	});
 	
 	  //BLUE
@@ -59,11 +57,11 @@
 		icon: 'android-fastfood',
 		markerColor: 'blue'
 	  });
-	  blueMarker = L.marker([27.0,85.1], {icon: blueMarker});
+	  blueMarker = L.marker([28.7724318773,83.51388114749308], {icon: blueMarker});
 	  blueMarker.addTo(map);
 	  blueMarker.on('click', function() {
-		$('.selectedMarker').removeClass('selectedMarker');
-		$(blueMarker._icon).addClass('selectedMarker');
+		$('.selected').removeClass('selected');
+		$(blueMarker._icon).addClass('selected');
 	});
 
 	  // GREEN
@@ -73,33 +71,26 @@
 	  });
 	  L.marker([51.931196,4.522291], {icon: greenMarker}).addTo(map);
 	  
-	  
-	  
-	omnivore.wkt.parse('MULTILINESTRING ((4.512291 51.941196, 4.512291 51.931196, 4.522291 51.931196))').addTo(map);
-	
-	// WMS overlay
-	//var wmsUrl = "http://webservices.nationalatlas.gov/wms"
-	var wmsUrl = "http://sdi.spaceapplications.com/geoserver/eos/wms"	
-	
-	var nexrad = L.tileLayer.wms(wmsUrl, {
-		layers: "eos:LC81420402015143LGN00",
-		format: 'image/png',
-		transparent: true
-	});
-	
-	nexrad.addTo(map);
-	
+
+	// POLYGON
 	var trans = omnivore.wkt.parse("MULTIPOLYGON (((83.51388114749308 28.7724318773 364983, 83.51369638053167 28.773024014681, 83.51429668837939 28.77311697565143, 83.5144739525622 28.77265789235008, 83.51448895222708 28.772391782917044, 83.51426618180193 28.772315343502065, 83.51388864800438 28.77229882265749, 83.51388114749308 28.772431877364983)))");
     trans = trans.toGeoJSON();
 	
-	var polygon1 = L.geoJson(trans);
-	polygon1.setStyle({className : "lake polygon1"});
+	var polygon = L.geoJson(trans);
+	polygon.setStyle({className : "lake"});
 	
-	var polygon2 = L.geoJson(trans);
-	polygon2.setStyle({className : "glacier polygon2"});
+	polygon.on('click', onPolygonClick);
 	
-	polygon1.addTo(map);
-	polygon2.addTo(map);
+	
+	function onPolygonClick(e) {
+		$('.selected').removeClass('selected');
+		
+		polygon.setStyle({className : "selected"});
+		console.log('clicked on lake', e);
+		$("path").addClass('selected');
+	}
+
+	polygon.addTo(map);
 	
 	</script>
 

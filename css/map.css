@@ -1,4 +1,9 @@
-.awesome-marker.selectedMarker i{
+.awesome-marker.selected i{
 	color: #444;
+	
+}
+
+.lake.selected {
+	fill: #444;
 	
 }
